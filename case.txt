@@ -1,0 +1,49 @@
+#!/bin/bash
+
+
+
+echo -n "Install Terraform?(y/n): "
+read item
+case "$item" in
+y|Y) echo "Terraform loading has begun ..."
+           if [ -n "`command -v apt-get`" ];
+           then
+           apt-get update
+           apt-get install unzip -y
+           wget https://releases.hashicorp.com/terraform/0.11.10/terraform_0.11.10_linux_amd64.zip
+           unzip terraform_0.11.10_linux_amd64.zip -d /opt/terraform
+           cat .bashrc | grep PATH
+           export PATH="$PATH:/opt/terraform"
+           . .bashrc;
+
+
+            elif [ -n "`command -v yum`" ];
+            then
+            yum -y install wget
+            yum -y install unzip
+            wget https://releases.hashicorp.com/terraform/0.6.6/terraform_0.6.6_linux_amd64.zip
+            unzip terraform_0.6.6_linux_amd64.zip -d /opt/terraform
+            cat .bashrc | grep PATH
+            export PATH="$PATH:/opt/terraform"
+            . .bashrc;
+            else echo "Error, could not determine the type of OS";
+            fi
+        echo -n "Create a new SSH key? (Y/N): "
+        read key
+        case "$key" in
+        y|Y) echo "Make a new SSH key "
+        read -p "Enter key name: " key
+        ssh-keygen -f $key -q -N ""
+        ;;
+        n|N) echo "No new key pair has been created"
+
+        ;;
+        esac
+terraform init
+terraform apply
+ ;;
+n|N) echo "Terraform was not installed"
+
+;;
+esac
+
