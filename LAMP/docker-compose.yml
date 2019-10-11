@@ -31,3 +31,14 @@ services:
             - ./database:/var/lib/mysql
         networks:
             - backend 
+network: 
+    backend: 
+        driver: bridge
+        internal: true
+        ipam:
+            driver: default
+            config:
+                - subnet: 172.16.238.0/24
+    frontend:
+        external: true
+
