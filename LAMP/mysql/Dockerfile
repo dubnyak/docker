@@ -1,0 +1,6 @@
+FROM mysql:8.0.13
+ENV MYSQL_ROOT_PASSWORD password 
+ENV MYSQL_DATABASE png
+ENV MYSQL_USER admin
+ENV MYSQL_PASSWORD admin
+COPY my.cnf /etc/mysql/ 
