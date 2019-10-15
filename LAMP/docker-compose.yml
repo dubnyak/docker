@@ -8,12 +8,7 @@ services:
             - 80:80
             - 443:443
         volumes: 
-            - ./public_html:/usr/local/apache2/htdocs
-            - ./cert/:/usr/local/apache2/cert/
             - ./apache/www:/var/www/html
-        networks:
-            - frontend
-            - backend
         depends_on:
             - php
             - mysql
@@ -22,25 +17,14 @@ services:
         restart: 'always'
         volumes:
             - ./public_html:/usr/local/apache2/htdocs
-        networks:
-            - backend
     mysql:
         build: './mysql'
         restart: 'always'
+        environment:
+            - MYSQL_ROOT_PASSWORD=password 
+            - MYSQL_DATABASE=png
+            - MYSQL_USER=admin
+            - MYSQL_PASSWORD admin
         volumes:
             - ./database:/var/lib/mysql
-        networks:
-            - backend 
-networks: 
-    backend: 
-        driver: bridge
-        internal: true
-        ipam:
-            driver: default
-            config:
-                - subnet: 172.16.238.0/24
-    frontend:
-        driver: custom-driver
-        external: true
-        name: frontend
 
