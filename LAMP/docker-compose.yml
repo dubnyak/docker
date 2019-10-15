@@ -20,7 +20,6 @@ services:
     mysql:
         build: './mysql'
         restart: 'always'
-        command: --secure-file-priv=NULL
         environment:
             - MYSQL_ROOT_PASSWORD=password 
             - MYSQL_DATABASE=png
