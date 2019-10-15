@@ -1,9 +1,16 @@
 FROM php:fpm
 
-RUN apk update \
-    && apk upgrade \
-    && docker-php-ext-install mysqli \
-    && apk add freetype libpng libjpeg-turbo freetype-dev libpng-dev libjpeg-turbo-dev \
-    && docker-php-ext-install -j$(nproc) iconv \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-    && docker-php-ext-install -j$(nproc) gd
+RUN apt-get update && apt-get install -y \
+        libmcrypt-dev \
+        apt-get install -y libpq-dev \
+        docker-php-ext-install -j$(nproc) mcrypt \
+        pecl install mongodb
+        docker-php-ext-enable mongodb
+RUN docker-php-ext-install mbstring
+RUN docker-php-ext-install exif
+RUN docker-php-ext-install opcache
+
+RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+    && docker-php-ext-install pgsql pdo_pgsql
+COPY conf/ /usr/local/etc/php-fpm.d/
+CMD ["php-fpm"]
