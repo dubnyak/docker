@@ -20,11 +20,12 @@ services:
     mysql:
         build: './mysql'
         restart: 'always'
+        command: --secure-file-priv=NULL
         environment:
             - MYSQL_ROOT_PASSWORD=password 
             - MYSQL_DATABASE=png
             - MYSQL_USER=admin
-            - MYSQL_PASSWORD admin
+            - MYSQL_PASSWORD=admin
         volumes:
             - ./database:/var/lib/mysql
 
