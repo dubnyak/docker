@@ -1,5 +1,6 @@
 FROM php:7.2.2-apache
 
+RUN apt update
 RUN apt-get -y install libsqlite3-dev libsqlite3-0 mysql-client \
     && docker-php-ext-install pdo_mysql \
     && docker-php-ext-install pdo_sqlite \
