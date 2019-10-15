@@ -1,24 +1,22 @@
-version: '3'
+version: '3.7'
 
-services:
-  mysql:
-    build: './mysql'
-    restart: 'always' 
-    
-  apache:
-    build: './apache'
-    restart: 'always'
-    container_name: php_web
-    depends_on:
-      - mysql
-    volumes:
-      - ./apache/www/:/var/www/html/
-    ports:
-      - "80:80"
-    stdin_open: true
-    tty: true
-  php: 
-        build: './php'
-        restart: 'always'
-        volumes:
-            - ./public_html:/usr/local/apache2/htdocs
+nginx:
+ dockerfile: ./Dockerfile # путь до докер файла указываем относительно директории в build
+ build: ./images/nginx
+ ports:
+  - 80:80
+ volumes:
+  - ./logs:/etc/logs/nginx
+ volumes_from:
+  - fpm:rw
+ environment:
+  - NGINX_HOST=localhost
+  - NGINX_PORT=80
+ command: nginx -g "daemon off;" # Можно было указать в докер-фале, но можно и здесь)
+ links:
+  - fpm
+fpm:
+ dockerfile: ./Dockerfile
+ build: ./images/fpm
+ volumes:
+  - ./php-code:/var/www:rw

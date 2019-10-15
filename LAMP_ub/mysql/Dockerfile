@@ -1,5 +1,0 @@
-FROM mysql:5.7
-ENV MYSQL_ROOT_PASSWORD: my_secret_pw_shh
-ENV MYSQL_DATABASE: test_db
-ENV MYSQL_USER: devuser
-ENV MYSQL_PASSWORD: devpass
