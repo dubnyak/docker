@@ -6,6 +6,6 @@ RUN apt-get -y install libsqlite3-dev libsqlite3-0 mysql-client \
     && docker-php-ext-install mysqli
 
 COPY ./apache.conf /usr/local/apache2/conf/httpd.conf
-COPY ./www:/var/www/html
+COPY ./www /var/www/html
 EXPOSE 80
 EXPOSE 443
